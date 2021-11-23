@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import { Create } from './components/create';
 import { Read } from './components/read';
+import { Edit } from './components/edit';
 
 class App extends Component {
   render() {
@@ -33,9 +34,10 @@ class App extends Component {
         </Navbar>
 
         <Switch>
-          <Route path = "/" component ={Contents} exact/>
+          <Route path = '/' component ={Contents} exact/>
           <Route path = '/create' component={Create} exact/>
-          <Route path = "/read" component={Read} exact/>
+          <Route path = '/read' component={Read} exact />
+          <Route path = '/edit/:id' component={Edit} exact/>
         </Switch>
 
       </div>
