@@ -1,8 +1,29 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import axios, { Axios  } from "axios";
 
-export class MovieItem extends React.Component {
+export class MovieItem extends React.Component { 
+
+    constructor(){
+        super();
+
+        this.DeleteMovie = this.DeleteMovie.bind(this)//bind instance of this class to delete movie
+    }
+
+
+    DeleteMovie(e){
+        e.preventDefault(); // stops method being called every time page is loaded
+        console.log("Delete: " + this.props.movie._id);
+
+        axios.delete("http://localhost:4000/api/movies/" + this.props.movie._id)
+        .then(()=>{
+            this.props.ReloadData();//calling reloadMethod from parent class
+        })
+        .catch();
+    }
+
 
     render() {
         return (
@@ -22,6 +43,7 @@ export class MovieItem extends React.Component {
                         </blockquote>
                     </Card.Body>
                     <Link to ={"/edit/" + this.props.movie._id} className="btn btn-primary">Edit</Link>
+                    <Button variant="danger" onClick={this.DeleteMovie}>Delete</Button>
                 </Card>
 
 
