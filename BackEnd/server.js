@@ -4,6 +4,7 @@ const port = 4000
 const cors = require('cors')
 const bodyParser = require("body-parser")
 const mongoose = require('mongoose');
+const path = require('path');
 
 app.use(cors())
 
@@ -16,8 +17,11 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }))
-
 app.use(bodyParser.json())
+
+//tells us where build & static folder are
+ app.use(express.static(path.join(__dirname, '../build')));
+ app.use('/static', express.static(path.join(__dirname, './build//static')))
 
 //connecting to our mongoose db
 const myConnectionString = 'mongodb+srv://admin:admin@cluster0.msxev.mongodb.net/movies?retryWrites=true&w=majority';
@@ -41,24 +45,11 @@ app.get('/api/movies/:id', (req,res)=>{
         res.json(data);
     })
 })
+//output is displayed on the server side( can be seen in the terminal )
 
+//this is the url where we can see individual movies based on the id
+//finds the id and returns the details
 app.get('/api/movies', (req, res) => {
-    // const mymovies = [
-    //     {
-    //         "Title":"Avengers: Infinity War",
-    //         "Year":"2018",
-    //         "imdbID":"tt4154756",
-    //         "Type":"movie",
-    //         "Poster":"https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-    //         },
-    //         {
-    //         "Title":"Captain America: Civil War",
-    //         "Year":"2016",
-    //         "imdbID":"tt3498820",
-    //         "Type":"movie",
-    //         "Poster":"https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-    //         }
-    // ];
 
     MovieModel.find((err, data) => {
         res.json(data);
@@ -66,16 +57,19 @@ app.get('/api/movies', (req, res) => {
 
 })
 
+//put method, used to edit the movie
 app.put('/api/movies/:id', (req,res)=>{
     console.log("Update Movie: " + req.params.id);
+    //pass up object containing new object. in other words update the document
     console.log(req.body);
 
     MovieModel.findByIdAndUpdate(req.params.id, req.body, {new:true},
         (err, data)=>{
-            res.send(data);
+            res.send(data);//sending back the data
         })
 })
-
+//post method
+//movie receives new movie that has been added to the server.
 app.post('/api/movies', (req, res) => {
     console.log('Movie Recieved');
     console.log(req.body.Title);
@@ -92,6 +86,8 @@ app.post('/api/movies', (req, res) => {
     res.send("Item Added!")
 })
 
+//delete method
+//movie details are taken and when the appropriate id has been found is deleted from the server
 app.delete('/api/movies/:id', (req,res)=>{
     console.log("Delete Movie: " + req.params.id);
 
@@ -100,6 +96,14 @@ app.delete('/api/movies/:id', (req,res)=>{
     })
 })
 
+//add at the bottom just over app.listen
+// Handles any requests that don't match the ones above
+app.get('*', (req,res)=> {
+    res.sendFile(path.join(__dirname+'/../build/index.html'));
+
+})
+
+//listening at the port 4000 for the server
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
