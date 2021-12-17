@@ -21,14 +21,14 @@ class App extends Component {
   render() {
     return (
       <Router>
-      <div className="App">
+      <div className="App"  >
         <Navbar bg="dark" variant="dark">  
           <Container>
-            <Navbar.Brand href="/">Navbar</Navbar.Brand>
+            <Navbar.Brand href="/">TellyBox</Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/read">Read</Nav.Link>
-              <Nav.Link href="/create">Create</Nav.Link>
+              <Nav.Link href="/read">Top Shows</Nav.Link>
+              <Nav.Link href="/create">Add Yours</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
@@ -42,6 +42,7 @@ class App extends Component {
 
       </div>
       </Router>
+      
     );
   }
 }

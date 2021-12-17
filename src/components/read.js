@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Movies } from './movies';
+import { TVShow } from './TVShow';
 import axios from 'axios';
 
 export class Read extends Component{
@@ -14,7 +14,7 @@ export class Read extends Component{
         axios.get('http://localhost:4000/api/movies')
         .then((response)=>{
             this.setState({
-                movies:response.data
+                tvShows:response.data
             })
         })
         .catch((error)=>{
@@ -22,15 +22,15 @@ export class Read extends Component{
         })
     }
     state = {
-        movies: [ ]
+        tvShows: [ ]
 
     };
 
     ReloadData(){
-        axios.get('http://localhost:4000/api/movies')  // gets json data for movies
+        axios.get('http://localhost:4000/api/TVShow')  // gets json data for TVShow
         .then((response)=>{
             this.setState({
-                movies:response.data//updates movies with array with retrived data
+                tvShows:response.data//updates TVShow with array with retrived data
             })
         })
         .catch((error)=>{
@@ -41,8 +41,8 @@ export class Read extends Component{
     render(){
         return(
             <div>
-                <h1>This is my Read Component.</h1>
-                <Movies movies={this.state.movies} ReloadData = {this.ReloadData}></Movies>
+                <h1>Top Shows.</h1>
+                <TVShow tvShows={this.state.tvShows} ReloadData = {this.ReloadData}></TVShow>
             </div>
         );
     }

@@ -30,18 +30,18 @@ mongoose.connect(myConnectionString, { useNewUrlParser: true });
 //defining schema
 const Schema = mongoose.Schema;
 //creating Schema
-var movieSchema = new Schema({
+var tvShowSchema = new Schema({
     Title: String,
     Year: String,
     Poster: String
 })
 
-var MovieModel = mongoose.model("movie", movieSchema)//variable used to interact with db
+var TVShowModel = mongoose.model("movie", tvShowSchema)//variable used to interact with db
 
-app.get('/api/movies/:id', (req,res)=>{
+app.get('/api/TVShow/:id', (req,res)=>{
     console.log(req.params.id);
 
-    MovieModel.findById(req.params.id, (err, data )=> {
+    TVShowModel.findById(req.params.id, (err, data )=> {
         res.json(data);
     })
 })
@@ -49,34 +49,34 @@ app.get('/api/movies/:id', (req,res)=>{
 
 //this is the url where we can see individual movies based on the id
 //finds the id and returns the details
-app.get('/api/movies', (req, res) => {
+app.get('/api/TVShow', (req, res) => {
 
-    MovieModel.find((err, data) => {
+    TVShowModel.find((err, data) => {
         res.json(data);
     })
 
 })
 
 //put method, used to edit the movie
-app.put('/api/movies/:id', (req,res)=>{
-    console.log("Update Movie: " + req.params.id);
+app.put('/api/TVShow/:id', (req,res)=>{
+    console.log("Update TV Show: " + req.params.id);
     //pass up object containing new object. in other words update the document
     console.log(req.body);
 
-    MovieModel.findByIdAndUpdate(req.params.id, req.body, {new:true},
+    TVShowModel.findByIdAndUpdate(req.params.id, req.body, {new:true},
         (err, data)=>{
             res.send(data);//sending back the data
         })
 })
 //post method
 //movie receives new movie that has been added to the server.
-app.post('/api/movies', (req, res) => {
-    console.log('Movie Recieved');
+app.post('/api/TVShow', (req, res) => {
+    console.log('TV Show Recieved');
     console.log(req.body.Title);
     console.log(req.body.Year);
     console.log(req.body.Poster);
 
-    MovieModel.create({
+    TVShowModel.create({
         Title: req.body.Title,
         Year: req.body.Year,
         Poster: req.body.Poster
@@ -88,10 +88,10 @@ app.post('/api/movies', (req, res) => {
 
 //delete method
 //movie details are taken and when the appropriate id has been found is deleted from the server
-app.delete('/api/movies/:id', (req,res)=>{
-    console.log("Delete Movie: " + req.params.id);
+app.delete('/api/TVShow/:id', (req,res)=>{
+    console.log("Delete TV Show: " + req.params.id);
 
-    MovieModel.findByIdAndDelete(req.params.id,(err, data)=>{ //finds record in db by matching id, then deletes record and sends back some data
+    TVShowModel.findByIdAndDelete(req.params.id,(err, data)=>{ //finds record in db by matching id, then deletes record and sends back some data
         res.send(data);
     })
 })
